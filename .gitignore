@@ -1,0 +1,7 @@
+# .NET artifacts
+/obj
+/bin
+/packages
+
+# Output artifacts
+/case.json

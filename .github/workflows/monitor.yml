@@ -1,0 +1,49 @@
+name: Smoke Test
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *' # run every day at midnight
+
+jobs:
+  smoke-test:
+    
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        # Currently this is only one version, but additonal versions can be specified to test against alternate versions of .NET
+        dotnet-version: ['7.0.x']
+
+    steps:
+      # Checkout the codebase from the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Setup the appropriate .NET Core SDK version for the build environment
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      # Install NuGet packages as specified in the .csproj file(s)
+      - name: Install Dependencies
+        run: dotnet restore
+      
+      # Build the project
+      - name: Build
+        run: |
+          dotnet build --configuration Release --no-restore
+          dotnet publish --configuration Release --no-restore
+
+      # Run the built executable to generate the case.json file
+      - name: Build
+        run: bin/Release/**/publish/CASE-Bindings-CSharp-Monitor
+
+      # Run the CASE validation job to confirm the output is valid. Note, this is pinned to CASE 1.0.0 as the CASE Bindings project supports 1.0.0
+      - name: CASE Export Validation
+        uses: kchason/case-validation-action@v2.5
+        with:
+          case-path: case.json
+          case-version: "case-1.0.0"
+      
