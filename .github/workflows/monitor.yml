@@ -6,15 +6,16 @@ on:
     - cron: '0 0 * * *' # run every day at midnight
 
 jobs:
-  strategy:
-    matrix:
-      # Currently this is only one version, but additonal versions can be specified to test against alternate versions of .NET
-      dotnet-version: ['7.0.x']
-
   smoke-test:
+    
     runs-on: ubuntu-latest
-    steps:
 
+    strategy:
+      matrix:
+        # Currently this is only one version, but additonal versions can be specified to test against alternate versions of .NET
+        dotnet-version: ['7.0.x']
+
+    steps:
       # Checkout the codebase from the repository
       - name: Checkout Repository
         uses: actions/checkout@v3
