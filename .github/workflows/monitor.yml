@@ -1,0 +1,35 @@
+name: Smoke Test
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *' # run every day at midnight
+
+jobs:
+  strategy:
+    matrix:
+      # Currently this is only one version, but additonal versions can be specified to test against newer versions of .NET
+      dotnet-version: ['6.0.x']
+  smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+
+      # Checkout the codebase from the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Setup the appropriate .NET Core SDK version for the build environment
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      
+      # Install NuGet packages as specified in the .csproj file(s)
+      # - name: Install Dependencies
+      #   run: dotnet restore --packages packages
+      
+      # Build the solution
+      # - name: Build
+      #   run: dotnet build --configuration Release --no-restore
+    
+      
