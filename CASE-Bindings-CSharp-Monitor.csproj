@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CipherTech.CASE.Bindings" Version="0.3.0" />
+    <PackageReference Include="CipherTech.CASE.Bindings" Version="0.4.0" />
   </ItemGroup>
 
 </Project>

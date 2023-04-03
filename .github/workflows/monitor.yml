@@ -40,10 +40,10 @@ jobs:
       - name: Build
         run: bin/Release/**/publish/CASE-Bindings-CSharp-Monitor
 
-      # Run the CASE validation job to confirm the output is valid. Note, this is pinned to CASE 1.0.0 as the CASE Bindings project supports 1.0.0
+      # Run the CASE validation job to confirm the output is valid
       - name: CASE Export Validation
-        uses: kchason/case-validation-action@v2.5
+        uses: kchason/case-validation-action@v2.6
         with:
           case-path: case.json
-          case-version: "case-1.1.0"
+          case-version: "case-1.2.0"
       
